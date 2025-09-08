@@ -1,0 +1,180 @@
+import React from "react";
+import { IoLogoWhatsapp } from "react-icons/io";
+import { useState, useEffect } from "react";
+import {
+  AnimatePresence,
+  motion,
+  useScroll,
+  useMotionValue,
+  useMotionValueEvent,
+} from "motion/react";
+import { useIsMobile } from "../contexts/MobileProvider";
+
+const Header = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [isInitialRender, setIsInitialRender] = useState(true);
+  const { isMobile } = useIsMobile();
+
+  const { scrollYProgress } = useScroll();
+
+  const [elementInScroll, setElementInScroll] = useState("Home");
+
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    console.log("scroll value for why:", latest);
+    if (latest <= 0.25) {
+      setElementInScroll("Home");
+    } else if (latest <= 0.4) {
+      setElementInScroll("About");
+    } else if (latest <= 0.7) {
+      setElementInScroll("services");
+    }
+  });
+
+  useEffect(() => {
+    if (!isInitialRender) {
+      setIsAnimating(true);
+      const timer = setTimeout(() => {
+        setIsAnimating(false);
+      }, 300); // Duration of the animation
+      return () => clearTimeout(timer);
+    } else {
+      setIsInitialRender(false);
+    }
+  }, [isMenuOpen]);
+
+  return (
+    <div className="fixed top-0 left-0 w-full z-100 p-2 bg-body rounded-b-4xl">
+      <nav
+        className="h-10 bg-amber-700 text-white flex justify-between items-center p-4 text-[0.6rem] z-50 font-semibold rounded-full 
+        md:text-lg md:px-6 md:py-4 relative"
+      >
+        {isMobile ? (
+          <section className="absolute top-0 left-0 w-full h-full">
+            {/* <div className="absolute top-[0.2vw] right-3 bg-amber-900 text-white p-2 rounded-2xl w-[25vw] h-[10vw] flex items-center justify-center text-[1rem] font-bold ">
+              Close
+            </div> */}
+            <section className="absolute top-[6px] left-1 flex gap-2 items-center font-bold -z-2">
+              <div className="text-black -300 p-1 bg-amber-100 rounded-full text-lg">
+                <IoLogoWhatsapp />
+              </div>
+              <motion.div className="text-black p-1 bg-amber-100 rounded-full text-sm">
+                {elementInScroll}
+              </motion.div>
+            </section>
+            <AnimatePresence>
+              {isMenuOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <ul className="flex flex-col gap-4 absolute top-10 left-10 w-full text-[7vw] select-none font-bold cursor-pointer">
+                    <motion.li
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ delay: 0.05, type: "spring" }}
+                      className="hover:text-black"
+                    >
+                      HOME
+                    </motion.li>
+                    <motion.li
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ delay: 0.1, type: "spring" }}
+                    >
+                      ABOUT
+                    </motion.li>
+                    <motion.li
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ delay: 0.2, type: "spring" }}
+                    >
+                      SERVICES
+                    </motion.li>
+                    <motion.li
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ delay: 0.3, type: "spring" }}
+                    >
+                      FAQ
+                    </motion.li>
+                    <motion.li
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ delay: 0.4, type: "spring" }}
+                    >
+                      CONTACT
+                    </motion.li>
+                  </ul>
+
+                  <img
+                    src="/images/blob1.png"
+                    alt="Header Background"
+                    className="w-full h-auto object-contain rounded-lg"
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
+            {isMenuOpen && (
+              <div className="fixed top-0 left-0 w-full h-full bg-black opacity-70 -z-10"></div>
+            )}
+
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                setIsMenuOpen(!isMenuOpen);
+              }}
+              className="absolute top-[5px] right-2 bg-amber-400 text-white w-21 h-[1.8rem] rounded-full text-[1rem] flex items-center justify-center font-bold overflow-hidden z-90"
+            >
+              <motion.h1
+                initial={{}}
+                animate={{
+                  opacity: isAnimating ? 0 : 1,
+                  // scale: isAnimating ? 1.2 : 1,
+                  y:
+                    isAnimating && !isMenuOpen
+                      ? 20
+                      : isAnimating && isMenuOpen
+                      ? -20
+                      : 0,
+                  // rotate: isAnimating ? 180 : 0,
+
+                  transition: {
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 20,
+                    // duration: 1,
+                  },
+                  rotateX: isAnimating ? 270 : 0,
+                }}
+                exit={{ opacity: 0 }}
+              >
+                {isMenuOpen ? "Close" : "Menu ☰"}
+              </motion.h1>
+            </button>
+          </section>
+        ) : (
+          <div className="flex justify-between gap-4 w-full">
+            <ul className="flex gap-2">
+              <li>HOME</li>
+              <li>ABOUT</li>
+              <li>SERVICES</li>
+              <li>FAQ</li>
+              <li>CONTACT</li>
+            </ul>
+            <div>
+              <IoLogoWhatsapp
+                className="text-green-300 text-xl
+                  md:text-2xl"
+              />
+            </div>
+          </div>
+        )}
+      </nav>
+    </div>
+  );
+};
+
+export default Header;

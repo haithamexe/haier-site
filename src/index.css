@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "arniya";
+  src: url("/fonts/Arniya-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "runiga";
+  src: url("/fonts/Runiga.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@theme {
+  /* Color utilities like bg-red-500, text-sky-300, and many more */
+  --color-pink-500: #ffccb7;
+  --color-red-500: #ff6b6b;
+  --color-yellow-500: #fcd792;
+  --color-olive-500: #828138;
+  --color-green-500: #3c5535;
+  --color-body: #f4e6ff;
+  --color-accent: black;
+  /* Font family utilities like font-sans */
+  /* --font-sans: "runiga", sans-serif; */
+  --font-name: "runiga", serif;
+}
