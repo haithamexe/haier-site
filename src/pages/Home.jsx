@@ -1,10 +1,17 @@
 import React from "react";
-import { FaQuestion } from "react-icons/fa";
+import {
+  FaQuestion,
+  FaWhatsapp,
+  FaEnvelope,
+  FaLinkedin,
+  FaInstagram,
+} from "react-icons/fa";
 import {
   motion,
   useScroll,
   useMotionValueEvent,
   useMotionValue,
+  AnimatePresence,
 } from "motion/react";
 import { useState, useEffect, useRef } from "react";
 import { useIsMobile } from "../contexts/MobileProvider";
@@ -15,6 +22,28 @@ const Home = () => {
   const sentinelRef = useRef(null);
   const stickyContainerRef = useRef(null);
   const [aboutSection, setAboutSection] = useState();
+
+  const [faqArray, setFaqArray] = useState([
+    {
+      question: "What services do you offer?",
+      answer:
+        "We offer a range of services including individual therapy, group therapy, and environmental consultations.",
+    },
+    {
+      question: "How can I book a session?",
+      answer:
+        "You can book a session through our website or by contacting us directly.",
+    },
+    {
+      question: "What are your qualifications?",
+      answer:
+        "Our team is composed of licensed professionals with extensive training in their respective fields.",
+    },
+  ]);
+
+  const [faqStates, setFaqStates] = useState(
+    Array(faqArray.length).fill(false)
+  );
 
   const { isMobile } = useIsMobile();
 
@@ -90,7 +119,7 @@ const Home = () => {
       </section>
       <section
         id="About"
-        className="sectionToObserve w-full relative my-2 rounded-2xl overflow-hidden"
+        className="sectionToObserve w-full relative my-2 rounded-2xl overflow-hidden relative"
       >
         <img
           src="/images/blob1.png"
@@ -113,7 +142,7 @@ const Home = () => {
       </section> */}
 
       {/* STICKY SECTION */}
-      <section id="Services" className="sectionToObserve relative h-400">
+      <section id="Services" className="sectionToObserve relative">
         {/* Sentinel - invisible trigger element */}
         <div
           ref={sentinelRef}
@@ -224,11 +253,132 @@ const Home = () => {
         </div>
       </section>
 
-      <section id="FAQ" className="sectionToObserve h-[100]">
-        <p>Find answers to common questions.</p>
+      <section
+        id="FAQ"
+        className="sectionToObserve  bg-white px-4 rounded-2xl mt-2 border-1 border-gray-400"
+      >
+        {faqArray.map((faq, index) => (
+          <div
+            key={index}
+            className="border-b-1 last:border-none justify-between border-gray-300 py-4"
+            id={`faq-${index}`}
+          >
+            <h3
+              className="font-medium  text-gray-900 text-lg  flex items-center"
+              onClick={() => {
+                const newFaqStates = [...faqStates];
+                newFaqStates[index] = !newFaqStates[index];
+                setFaqStates(newFaqStates);
+              }}
+            >
+              {faq.question}
+              <motion.span
+                className="ml-auto"
+                initial={{ rotate: 0 }}
+                animate={{ rotate: faqStates[index] ? 45 : 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                +
+              </motion.span>
+            </h3>
+            <AnimatePresence initial={false}>
+              {faqStates[index] && (
+                <motion.div
+                  className="overflow-hidden mt-2"
+                  key={`faq-answer-${index}`}
+                  initial="collapsed"
+                  animate="open"
+                  exit="collapsed"
+                  variants={{
+                    open: { opacity: 1, height: "auto" },
+                    collapsed: { opacity: 0, height: 0 },
+                  }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                >
+                  <p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className={`text-lg leading-relaxed text-gray-700 overflow-hidden transition-all duration-300 text-wrap${
+                      faqStates[index]
+                        ? "opacity-100"
+                        : "max-h-0 opacity-0 hidden"
+                    }`}
+                  >
+                    {faq.answer}
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        ))}
       </section>
-      <section id="Contact" className="sectionToObserve h-[100]">
-        <p>Get in touch with us for more information.</p>
+      <section
+        id="Contact"
+        className="sectionToObserve p-2 bg-white mt-2 rounded-2xl border-1 border-gray-400 gap-y-2 gap-x-1 flex flex-wrap "
+      >
+        <h1 className="text-3xl font-bold text-black flex items-center gap-2">
+          For Appointments and Inquiries.
+        </h1>
+        <section className="w-[80%] ">
+          <div className="flex flex-wrap gap-2 mt-2">
+            <a
+              href="mailto:your-email@example.com"
+              className="text-blue-500 hover:underline p-2 rounded-full bg-gray-500 text-white flex items-center gap-"
+            >
+              Email
+              <FaEnvelope className="inline ml-1" />
+            </a>
+            <a
+              href="https://wa.me/your-number"
+              className="text-green-500 hover:underline p-2 rounded-full bg-green-500 text-white flex items-center gap-2"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              WhatsApp
+              <FaWhatsapp className="inline ml-1" />
+            </a>
+            <a
+              href="https://www.linkedin.com/in/your-profile"
+              className="text-blue-700 hover:underline p-2 rounded-full bg-blue-500 text-white flex items-center gap-2"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              LinkedIn
+              <FaLinkedin className="inline ml-1" />
+            </a>
+            <a
+              href="https://github.com/your-profile"
+              className="text-gray-700 hover:underline p-2 rounded-full bg-orange-500 text-white flex items-center gap-2"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Instagram
+              <FaInstagram className="inline ml-1" />
+            </a>
+          </div>
+        </section>
+      </section>
+      <section className="h-100 w-full flex items-center justify-center my-2 rounded-2xl overflow-hidden relative border-2 border-gray-400">
+        <motion.img
+          src="/images/bones.png"
+          alt="about image"
+          className="w-1/2 h-auto object-contain "
+          initial={{ opacity: 0, y: "120%" }}
+          transition={{
+            duration: 0.5,
+            type: "spring",
+            stiffness: 50,
+            damping: 5,
+            bounce: 200,
+            velocity: 0.5,
+            ease: "easeInOut",
+            repeat: Infinity,
+            repeatType: "reverse",
+          }}
+          whileInView={{ opacity: 1, y: 0 }}
+        />
       </section>
     </div>
   );

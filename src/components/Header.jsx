@@ -20,44 +20,26 @@ const Header = () => {
 
   const [elementInScroll, setElementInScroll] = useState("Home");
 
-  // useEffect(() => {
-  //   const observer = new IntersectionObserver(
-  //     (entries) => {
-  //       entries.forEach((entry) => {
-  //         if (entry.isIntersecting) {
-  //           const rect = entry.boundingClientRect;
-
-  //           // Check if element's top is aligned with viewport top
-  //           console.log("Element aligned at top:", entry.target);
-
-  //           if (Math.abs(rect.top) < 1) {
-  //             console.log("Element aligned at top:", entry.target);
-  //             setElementInScroll(entry.target.id);
-  //           }
-  //         }
-  //       });
-  //     },
-  //     { root: null, threshold: 0, rootMargin: "0px" }
-  //   );
-
-  //   const sections = document.querySelectorAll(".sectionToObserve");
-  //   sections.forEach((section) => observer.observe(section));
-  //   return () => observer.disconnect();
-  // }, []);
-
   useEffect(() => {
     const TOL = 2;
+    const HeaderHeight = 100;
+
+    const topOffset = -HeaderHeight;
+    const bottomOffset = -(window.innerHeight - HeaderHeight);
 
     const obs = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           // Will fire when the element crosses the top "line"
-          if (entry.isIntersecting) {
-            const top = entry.boundingClientRect.top;
+          if (!entry.isIntersecting) return;
+
+          const lineTop = entry.rootBounds
+            ? entry.rootBounds.top
+            : HeaderHeight;
+
+          if (entry.boundingClientRect.top <= lineTop + TOL) {
             // With this rootMargin, intersecting ~means the top is at (or very near) 0
-            if (top <= TOL) {
-              setElementInScroll(entry.target.id);
-            }
+            setElementInScroll(entry.target.id);
           }
         });
       },
@@ -65,7 +47,7 @@ const Header = () => {
         root: null,
         // Pull the bottom of the root up by 100% of viewport height,
         // leaving effectively the top edge as the observable boundary.
-        rootMargin: "0px 0px -100% 0px",
+        rootMargin: `${topOffset}px 0px ${bottomOffset}px 0px`,
         threshold: 0,
       }
     );
