@@ -20,7 +20,7 @@ const Home = () => {
 
   // Adjust these values based on your header height and desired offset
   const headerHeight = 900;
-  const stickyOffset = isMobile ? 60 : 60;
+  const stickyOffset = isMobile ? 57 : 60;
 
   useEffect(() => {
     const sentinel = sentinelRef.current;
@@ -47,7 +47,10 @@ const Home = () => {
 
   return (
     <div>
-      <section className="w-full flex items-center justify-center relative bg-amber-600 py-5 pb-16 rounded-2xl">
+      <section
+        id="Home"
+        className="sectionToObserve w-full flex items-center justify-center relative bg-amber-600 py-5 pb-16 rounded-2xl"
+      >
         <img
           src="/images/hajer home.png"
           alt="hajer home image"
@@ -85,7 +88,10 @@ const Home = () => {
           <p className="text-xs font-bold">physcotyherapist && Envernmalist</p>
         </div>
       </section>
-      <section className="w-full relative my-2 rounded-2xl overflow-hidden">
+      <section
+        id="About"
+        className="sectionToObserve w-full relative my-2 rounded-2xl overflow-hidden"
+      >
         <img
           src="/images/blob1.png"
           alt="about image"
@@ -106,8 +112,8 @@ const Home = () => {
         <p>Discover the services we offer to help you succeed.</p>
       </section> */}
 
-      {/* FIXED STICKY SECTION */}
-      <section className="relative h-400" id="about">
+      {/* STICKY SECTION */}
+      <section id="Services" className="sectionToObserve relative h-400">
         {/* Sentinel - invisible trigger element */}
         <div
           ref={sentinelRef}
@@ -218,12 +224,10 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="h-[100]">
-        <h2>FAQ</h2>
+      <section id="FAQ" className="sectionToObserve h-[100]">
         <p>Find answers to common questions.</p>
       </section>
-      <section className="h-[100]">
-        <h2>Contact</h2>
+      <section id="Contact" className="sectionToObserve h-[100]">
         <p>Get in touch with us for more information.</p>
       </section>
     </div>

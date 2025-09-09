@@ -20,16 +20,61 @@ const Header = () => {
 
   const [elementInScroll, setElementInScroll] = useState("Home");
 
-  useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    console.log("scroll value for why:", latest);
-    if (latest <= 0.25) {
-      setElementInScroll("Home");
-    } else if (latest <= 0.4) {
-      setElementInScroll("About");
-    } else if (latest <= 0.7) {
-      setElementInScroll("services");
-    }
-  });
+  // useEffect(() => {
+  //   const observer = new IntersectionObserver(
+  //     (entries) => {
+  //       entries.forEach((entry) => {
+  //         if (entry.isIntersecting) {
+  //           const rect = entry.boundingClientRect;
+
+  //           // Check if element's top is aligned with viewport top
+  //           console.log("Element aligned at top:", entry.target);
+
+  //           if (Math.abs(rect.top) < 1) {
+  //             console.log("Element aligned at top:", entry.target);
+  //             setElementInScroll(entry.target.id);
+  //           }
+  //         }
+  //       });
+  //     },
+  //     { root: null, threshold: 0, rootMargin: "0px" }
+  //   );
+
+  //   const sections = document.querySelectorAll(".sectionToObserve");
+  //   sections.forEach((section) => observer.observe(section));
+  //   return () => observer.disconnect();
+  // }, []);
+
+  useEffect(() => {
+    const TOL = 2;
+
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          // Will fire when the element crosses the top "line"
+          if (entry.isIntersecting) {
+            const top = entry.boundingClientRect.top;
+            // With this rootMargin, intersecting ~means the top is at (or very near) 0
+            if (top <= TOL) {
+              setElementInScroll(entry.target.id);
+            }
+          }
+        });
+      },
+      {
+        root: null,
+        // Pull the bottom of the root up by 100% of viewport height,
+        // leaving effectively the top edge as the observable boundary.
+        rootMargin: "0px 0px -100% 0px",
+        threshold: 0,
+      }
+    );
+
+    document
+      .querySelectorAll(".sectionToObserve")
+      .forEach((el) => obs.observe(el));
+    return () => obs.disconnect();
+  }, []);
 
   useEffect(() => {
     if (!isInitialRender) {
@@ -58,7 +103,7 @@ const Header = () => {
               <div className="text-black -300 p-1 bg-amber-100 rounded-full text-lg">
                 <IoLogoWhatsapp />
               </div>
-              <motion.div className="text-black p-1 bg-amber-100 rounded-full text-sm">
+              <motion.div className="text-black p-1 px-2 bg-amber-100 rounded-full text-sm">
                 {elementInScroll}
               </motion.div>
             </section>
