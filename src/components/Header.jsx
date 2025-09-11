@@ -71,9 +71,9 @@ const Header = () => {
   }, [isMenuOpen]);
 
   return (
-    <div className="fixed top-0 left-0 w-full z-100 p-2 bg-body rounded-b-4xl">
+    <div className="fixed top-0 left-0 w-full z-100 p-2 bg-back rounded-b-4xl">
       <nav
-        className="h-10 bg-amber-700 text-white flex justify-between items-center p-4 text-[0.6rem] z-50 font-semibold rounded-full 
+        className="h-10 bg-secondary text-white flex justify-between items-center p-4 text-[0.6rem] z-50 font-semibold rounded-full 
         md:text-lg md:px-6 md:py-4 relative"
       >
         {isMobile ? (
@@ -82,10 +82,10 @@ const Header = () => {
               Close
             </div> */}
             <section className="absolute top-[6px] left-1 flex gap-2 items-center font-bold -z-2">
-              <div className="text-black -300 p-1 bg-amber-100 rounded-full text-lg">
+              {/* <div className="text-black -300 p-1 bg-amber-100 rounded-full text-lg">
                 <IoLogoWhatsapp />
-              </div>
-              <motion.div className="text-black p-1 px-2 bg-amber-100 rounded-full text-sm">
+              </div> */}
+              <motion.div className="text-text p-1 px-2 bg-tertiary rounded-full text-sm">
                 {elementInScroll}
               </motion.div>
             </section>
@@ -153,7 +153,7 @@ const Header = () => {
                 e.preventDefault();
                 setIsMenuOpen(!isMenuOpen);
               }}
-              className="absolute top-[5px] right-2 bg-amber-400 text-white w-21 h-[1.8rem] rounded-full text-[1rem] flex items-center justify-center font-bold overflow-hidden z-90"
+              className="absolute top-[5px] right-2 bg-tertiary text-text w-21 h-[1.8rem] rounded-full text-[1rem] flex items-center justify-center font-bold overflow-hidden z-90"
             >
               <motion.h1
                 initial={{}}

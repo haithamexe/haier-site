@@ -6,7 +6,7 @@ function Layout() {
   return (
     <>
       <Header />
-      <div className="bg-body p-2 pt-14 md:pt-16 ">
+      <div className="bg-back p-2 pt-14 md:pt-16 ">
         <Outlet />
       </div>
       <Footer />

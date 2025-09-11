@@ -22,6 +22,7 @@ const Home = () => {
   const sentinelRef = useRef(null);
   const stickyContainerRef = useRef(null);
   const [aboutSection, setAboutSection] = useState();
+  const [showBoneImage, setShowBoneImage] = useState(false);
 
   const [faqArray, setFaqArray] = useState([
     {
@@ -42,7 +43,7 @@ const Home = () => {
   ]);
 
   const [faqStates, setFaqStates] = useState(
-    Array(faqArray.length).fill(false)
+    Array(faqArray.length).fill(false) // Initialize all FAQ states to false (collapsed)
   );
 
   const { isMobile } = useIsMobile();
@@ -78,7 +79,7 @@ const Home = () => {
     <div>
       <section
         id="Home"
-        className="sectionToObserve w-full flex items-center justify-center relative bg-amber-600 py-5 pb-16 rounded-2xl"
+        className="sectionToObserve w-full flex items-center justify-center relative bg-secondary py-5 pb-16 rounded-2xl"
       >
         <img
           src="/images/hajer home.png"
@@ -126,7 +127,7 @@ const Home = () => {
           alt="about image"
           className="w-full h-auto object-contain rotate-y-180"
         />
-        <h2 className=" w-[27vw] h-[9vw] absolute bg-amber-500 rounded-4xl flex items-center justify-center top-[1vw] left-[1vw] text-[5vw] font-bold ">
+        <h2 className=" w-[27vw] h-[9vw] absolute bg-secondary rounded-4xl flex items-center justify-center top-[1vw] left-[1vw] text-[5vw] font-bold text-textd">
           About
         </h2>
         <p className="absolute z-10 top-[1vw] p-3 text-[7vw] leading-[8.5vw] ">
@@ -157,19 +158,19 @@ const Home = () => {
         >
           {/* About Section */}
           <div
-            className={`bg-purple-200 rounded-2xl  transition-all duration-300 mb-2 ${
+            className={`bg-secondary rounded-2xl  transition-all duration-300 mb-2  ${
               isSticky ? "sticky" : "relative"
             }`}
             style={isSticky ? { top: `${stickyOffset}px` } : {}}
           >
             <motion.h1
-              className="text-black bg-purple-300 text-lg px-2 py-1 border-b-1 border-b-purple-400 block rounded-xl 
-              font-bold font-arniya w-30"
+              className="text-black bg-tertiary text-lg px-3 py-1  border-b-2 border-b-quaternary rounded-full inline-block
+              font-bold font-arniya "
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.4, ease: "easeInOut", delay: 0.6 }}
             >
-              Service 1
+              Service asd asd asd sad1
             </motion.h1>
             <motion.p
               variants={motionVariants}
@@ -189,14 +190,14 @@ const Home = () => {
 
           {/* Education Section */}
           <div
-            className={`bg-purple-200 rounded-2xl  transition-all duration-300  mb-2 ${
+            className={`bg-secondary rounded-2xl  transition-all duration-300  mb-2 ${
               isSticky ? "sticky" : "relative"
             }`}
             style={isSticky ? { top: `${stickyOffset + 10}px` } : {}}
           >
             <motion.h1
-              className="text-black bg-purple-400 text-lg px-2 py-1 border-b-1 border-b-purple-500 block rounded-xl
-              font-bold font-arniya w-30"
+              className="text-black bg-tertiary text-lg px-3 py-1  border-b-2 border-b-quaternary  rounded-full inline-block
+              font-bold font-arniya "
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.4, ease: "easeInOut", delay: 0.6 }}
@@ -221,14 +222,14 @@ const Home = () => {
 
           {/* Experience Section */}
           <div
-            className={`bg-purple-200 rounded-2xl   transition-all duration-300 ${
+            className={`bg-secondary rounded-2xl   transition-all duration-300  ${
               isSticky ? "sticky" : "relative"
             }`}
             style={isSticky ? { top: `${stickyOffset + 0}px` } : {}}
           >
             <motion.h1
-              className="text-black bg-purple-500 text-lg px-2 py-1 border-b-1 border-b-purple-600 block rounded-xl
-              font-bold font-arniya w-30"
+              className="text-black bg-tertiary text-lg px-3 py-1  border-b-2 border-b-quaternary  rounded-full inline-block
+              font-bold font-arniya "
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.4, ease: "easeInOut", delay: 0.6 }}
@@ -255,56 +256,57 @@ const Home = () => {
 
       <section
         id="FAQ"
-        className="sectionToObserve  bg-white px-4 rounded-2xl mt-2 border-1 border-gray-400"
+        className="sectionToObserve  rounded-2xl mt-2 flex  flex-col "
       >
         {faqArray.map((faq, index) => (
-          <div
-            key={index}
-            className="border-b-1 last:border-none justify-between border-gray-300 py-4"
-            id={`faq-${index}`}
-          >
-            <h3
-              className="font-medium  text-gray-900 text-lg  flex items-center"
-              onClick={() => {
-                const newFaqStates = [...faqStates];
-                newFaqStates[index] = !newFaqStates[index];
-                setFaqStates(newFaqStates);
-              }}
+          <div key={index} className="w-full mb-1 last:mb-0">
+            <motion.div
+              key={index}
+              className=" bg-tertiary p-4 w-full rounded-2xl flex flex-col"
+              id={`faq-${index}`}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+              viewport={{ once: true }}
             >
-              {faq.question}
-              <motion.span
-                className="ml-auto"
-                initial={{ rotate: 0 }}
-                animate={{ rotate: faqStates[index] ? 45 : 0 }}
-                transition={{ duration: 0.2 }}
+              <h3
+                className="font-medium  text-black text-lg  flex items-center"
+                onClick={() => {
+                  const newFaqStates = [...faqStates];
+                  newFaqStates[index] = !newFaqStates[index];
+                  setFaqStates(newFaqStates);
+                }}
               >
-                +
-              </motion.span>
-            </h3>
+                {faq.question}
+                <motion.span
+                  className="ml-auto"
+                  initial={{ rotate: 0 }}
+                  animate={{ rotate: faqStates[index] ? 45 : 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  +
+                </motion.span>
+              </h3>
+            </motion.div>
             <AnimatePresence initial={false}>
               {faqStates[index] && (
                 <motion.div
-                  className="overflow-hidden mt-2"
+                  className="overflow-hidden "
                   key={`faq-answer-${index}`}
                   initial="collapsed"
                   animate="open"
                   exit="collapsed"
                   variants={{
                     open: { opacity: 1, height: "auto" },
-                    collapsed: { opacity: 0, height: 0 },
+                    collapsed: { opacity: 0, height: "0px" },
                   }}
-                  transition={{ duration: 0.3, ease: "easeInOut" }}
                 >
                   <p
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.5 }}
-                    className={`text-lg leading-relaxed text-gray-700 overflow-hidden transition-all duration-300 text-wrap${
-                      faqStates[index]
-                        ? "opacity-100"
-                        : "max-h-0 opacity-0 hidden"
-                    }`}
+                    className={`text-lg leading-relaxed text-text overflow-hidden transition-all duration-300 text-wrap bg-secondary p-4 rounded-2xl `}
                   >
                     {faq.answer}
                   </p>
@@ -316,7 +318,7 @@ const Home = () => {
       </section>
       <section
         id="Contact"
-        className="sectionToObserve p-2 bg-white mt-2 rounded-2xl border-1 border-gray-400 gap-y-2 gap-x-1 flex flex-wrap "
+        className="sectionToObserve p-2 bg-secondary mt-2 rounded-2xl  gap-y-2 gap-x-1 flex flex-wrap "
       >
         <h1 className="text-3xl font-bold text-black flex items-center gap-2">
           For Appointments and Inquiries.
@@ -325,14 +327,14 @@ const Home = () => {
           <div className="flex flex-wrap gap-2 mt-2">
             <a
               href="mailto:your-email@example.com"
-              className="text-blue-500 hover:underline p-2 rounded-full bg-gray-500 text-white flex items-center gap-"
+              className="text-blue-500 hover:underline p-2 rounded-full bg-quaternary text-white flex items-center gap-"
             >
               Email
               <FaEnvelope className="inline ml-1" />
             </a>
             <a
               href="https://wa.me/your-number"
-              className="text-green-500 hover:underline p-2 rounded-full bg-green-500 text-white flex items-center gap-2"
+              className="text-green-500 hover:underline p-2 rounded-full bg-quaternary text-white flex items-center gap-2"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -341,7 +343,7 @@ const Home = () => {
             </a>
             <a
               href="https://www.linkedin.com/in/your-profile"
-              className="text-blue-700 hover:underline p-2 rounded-full bg-blue-500 text-white flex items-center gap-2"
+              className="text-blue-700 hover:underline p-2 rounded-full bg-quaternary text-white flex items-center gap-2"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -350,7 +352,7 @@ const Home = () => {
             </a>
             <a
               href="https://github.com/your-profile"
-              className="text-gray-700 hover:underline p-2 rounded-full bg-orange-500 text-white flex items-center gap-2"
+              className="text-gray-700 hover:underline p-2 rounded-full bg-quaternary text-white flex items-center gap-2"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -360,26 +362,33 @@ const Home = () => {
           </div>
         </section>
       </section>
-      <section className="h-100 w-full flex items-center justify-center my-2 rounded-2xl overflow-hidden relative border-2 border-gray-400">
-        <motion.img
-          src="/images/bones.png"
-          alt="about image"
-          className="w-1/2 h-auto object-contain "
-          initial={{ opacity: 0, y: "120%" }}
-          transition={{
-            duration: 0.5,
-            type: "spring",
-            stiffness: 50,
-            damping: 5,
-            bounce: 200,
-            velocity: 0.5,
-            ease: "easeInOut",
-            repeat: Infinity,
-            repeatType: "reverse",
-          }}
-          whileInView={{ opacity: 1, y: 0 }}
-        />
-      </section>
+      <motion.section
+        whileInView={() => setShowBoneImage(true)}
+        className="h-100 w-full flex items-center justify-center my-2 rounded-2xl overflow-hidden relative border-2 border-gray-400"
+      >
+        <AnimatePresence initial={false}>
+          {showBoneImage && (
+            <motion.img
+              src="/images/bones.png"
+              alt="about image"
+              className="w-1/2 h-auto object-contain "
+              initial={{ opacity: 0, y: "120%" }}
+              animate={{ opacity: 1, y: "0%" }}
+              transition={{
+                duration: 0.5,
+                type: "spring",
+                stiffness: 50,
+                damping: 5,
+                bounce: 200,
+                velocity: 0.5,
+                ease: "easeInOut",
+                repeat: Infinity,
+                repeatType: "reverse",
+              }}
+            />
+          )}
+        </AnimatePresence>
+      </motion.section>
     </div>
   );
 };

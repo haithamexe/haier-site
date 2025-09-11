@@ -17,7 +17,16 @@
 @theme {
   /* Color utilities like bg-red-500, text-sky-300, and many more */
  
-  --color-body: #f4e6ff;
+  --color-back: #e8efff;
+  --color-secondary: #b7beff;
+  --color-tertiary: #8299ff;
+  --color-quaternary: #2e3cff;
+  --color-foreground: rgb(66, 65, 117);
+
+  --color-text: rgb(27, 26, 34);
+  --color-text-secondary: rgb(51, 48, 66);
+  --color-text-tertiary: rgb(84, 79, 110);
+
   --color-accent: black;
   /* Font family utilities like font-sans */
   /* --font-sans: "runiga", sans-serif; */
